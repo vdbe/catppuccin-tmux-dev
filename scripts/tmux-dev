@@ -2,16 +2,27 @@
 
 DEV_ROOT="$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" && pwd)"
 
+SOCKET_NAME="dev"
+DEFAULT_BRANCH="default"
 DEFAULT_CONFIG_FILE="${DEV_ROOT}/config/tmux.conf"
 DEFAULT_SCOKET_NAME="dev"
 
 if [ -n "$1" ]; then
-	SOCKET_NAME="dev-$1"
-	CONFIG_FILE="${DEV_ROOT}/config/$1.conf"
+	SOCKET_NAME="$SOCKET_NAME-$(echo $1 | tr / _)"
+	CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$1/catppuccin.tmux"
 else
-	CONFIG_FILE="$DEFAULT_CONFIG_FILE"
-	SOCKET_NAME="$DEFAULT_SCOKET_NAME"
+	CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$DEFAULT_BRANCH/catppuccin.tmux"
 
 fi
 
+if [ -n "$2" ]; then
+	SOCKET_NAME="$SOCKET_NAME-$2"
+	CONFIG_FILE="${DEV_ROOT}/config/$2.conf"
+else
+	CONFIG_FILE="$DEFAULT_CONFIG_FILE"
+	SOCKET_NAME="$DEFAULT_SCOKET_NAME"
+fi
+
+echo $SOCKET_NAME
+export CATPPUCCIN_TMUX_PLUGIN
 tmux -L "$SOCKET_NAME" -f "$CONFIG_FILE"

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+echo "$1"
+
+shift
+rm -rf ./scripts/bash
+bash --version
+hyperfine -N --warmup 10 --min-runs 100 $@
+
+ln -rs ./result/bin/bash3 ./scripts/bash
+bash --version
+hyperfine -N --warmup 10 --min-runs 100 $@

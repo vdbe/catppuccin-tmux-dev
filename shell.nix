@@ -16,6 +16,7 @@ pkgs.mkShellNoCC {
       shfmt
       zsh
       yaml-language-server
+      hyperfine
     ])
     ++ [ bash3 ];
 }
