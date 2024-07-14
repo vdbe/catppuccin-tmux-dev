@@ -2,3 +2,6 @@
 result
 result-*
 repl-result-*
+
+# bare catppuccin/tmux repo
+ctp

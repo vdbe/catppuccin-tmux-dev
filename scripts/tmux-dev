@@ -2,4 +2,16 @@
 
 DEV_ROOT="$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" && pwd)"
 
-tmux -f "${DEV_ROOT}/config/tmux.conf" -L dev
+DEFAULT_CONFIG_FILE="${DEV_ROOT}/config/tmux.conf"
+DEFAULT_SCOKET_NAME="dev"
+
+if [ -n "$1" ]; then
+	SOCKET_NAME="dev-$1"
+	CONFIG_FILE="${DEV_ROOT}/config/$1.conf"
+else
+	CONFIG_FILE="$DEFAULT_CONFIG_FILE"
+	SOCKET_NAME="$DEFAULT_SCOKET_NAME"
+
+fi
+
+tmux -L "$SOCKET_NAME" -f "$CONFIG_FILE"
