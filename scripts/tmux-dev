@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+DEV_ROOT="$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" && pwd)"
+
+tmux -f "${DEV_ROOT}/config/tmux.conf" -L dev
