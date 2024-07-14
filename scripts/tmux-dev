@@ -7,6 +7,10 @@ DEFAULT_BRANCH="default"
 DEFAULT_CONFIG_FILE="${DEV_ROOT}/config/tmux.conf"
 DEFAULT_SCOKET_NAME="dev"
 
+rel_path() {
+	echo $(realpath --relative-base="$DEV_ROOT" "$1")
+}
+
 if [ -n "$1" ]; then
 	SOCKET_NAME="$SOCKET_NAME-$(echo $1 | tr / _)"
 	CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$1/catppuccin.tmux"
@@ -20,9 +24,11 @@ if [ -n "$2" ]; then
 	CONFIG_FILE="${DEV_ROOT}/config/$2.conf"
 else
 	CONFIG_FILE="$DEFAULT_CONFIG_FILE"
-	SOCKET_NAME="$DEFAULT_SCOKET_NAME"
 fi
 
-echo $SOCKET_NAME
+echo "Plugin path: $(rel_path $CATPPUCCIN_TMUX_PLUGIN)"
+echo "Config file: $(rel_path $CONFIG_FILE)"
+echo "Socket name: $SOCKET_NAME"
+
 export CATPPUCCIN_TMUX_PLUGIN
 tmux -L "$SOCKET_NAME" -f "$CONFIG_FILE"

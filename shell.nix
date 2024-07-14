@@ -7,6 +7,7 @@ pkgs.mkShellNoCC {
   shellHook = ''
     export PATH="$PWD/scripts:$PATH"
   '';
+
   packages =
     (with pkgs; [
       nodePackages.bash-language-server
