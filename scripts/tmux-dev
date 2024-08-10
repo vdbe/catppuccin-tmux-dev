@@ -8,27 +8,30 @@ DEFAULT_CONFIG_FILE="${DEV_ROOT}/config/tmux.conf"
 DEFAULT_SCOKET_NAME="dev"
 
 rel_path() {
-	echo $(realpath --relative-base="$DEV_ROOT" "$1")
+  echo $(realpath --relative-base="$DEV_ROOT" "$1")
 }
 
 if [ -n "$1" ]; then
-	SOCKET_NAME="$SOCKET_NAME-$(echo $1 | tr / _)"
-	CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$1/catppuccin.tmux"
+  SOCKET_NAME="$SOCKET_NAME-$(echo $1 | tr / _)"
+  CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$1/catppuccin.tmux"
 else
-	CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$DEFAULT_BRANCH/catppuccin.tmux"
+  CATPPUCCIN_TMUX_PLUGIN="$DEV_ROOT/ctp/$DEFAULT_BRANCH/catppuccin.tmux"
 
 fi
 
 if [ -n "$2" ]; then
-	SOCKET_NAME="$SOCKET_NAME-$2"
-	CONFIG_FILE="${DEV_ROOT}/config/$2.conf"
+  SOCKET_NAME="$SOCKET_NAME-$2"
+  CONFIG_FILE="${DEV_ROOT}/config/$2.conf"
 else
-	CONFIG_FILE="$DEFAULT_CONFIG_FILE"
+  CONFIG_FILE="$DEFAULT_CONFIG_FILE"
 fi
 
-echo "Plugin path: $(rel_path $CATPPUCCIN_TMUX_PLUGIN)"
-echo "Config file: $(rel_path $CONFIG_FILE)"
+REL_CATPPUCCIN_TMUX_PLUGIN="$(rel_path "$CATPPUCCIN_TMUX_PLUGIN")"
+REL_CONFIG_FILE="$(rel_path "$CONFIG_FILE")"
+echo "Plugin path: $REL_CATPPUCCIN_TMUX_PLUGIN"
+echo "Config file: $REL_CONFIG_FILE"
 echo "Socket name: $SOCKET_NAME"
 
 export CATPPUCCIN_TMUX_PLUGIN
+echo "CATPPUCCIN_TMUX_PLUGIN=$REL_CATPPUCCIN_TMUX_PLUGIN" tmux -L "$SOCKET_NAME" -f "$REL_CONFIG_FILE"
 tmux -L "$SOCKET_NAME" -f "$CONFIG_FILE"

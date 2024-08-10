@@ -12,3 +12,5 @@ export PATH="$PWD/scripts:$PATH"
 ln -rs ./result/bin/bash3 ./scripts/bash
 bash --version
 hyperfine -N --warmup 10 --min-runs 100 $@
+
+rm -rf ./scripts/bash
