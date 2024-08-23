@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+DEV_ROOT="$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" && pwd)"
+
+DEFAULT_BRANCH="default"
+
+if [ -n "$1" ]; then
+  BRANCH="$1"
+else
+  BRANCH="$DEFAULT_BRANCH"
+fi
+
+FILES="$DEV_ROOT/config/*.conf"
+for f in $FILES; do
+  echo "testing $f"
+  echo "${BASH_SOURCE[0]}"
+
+  echo ./tmux-dev "$BRANCH" "$(basename -s .conf "$f")"
+  "$(dirname "${BASH_SOURCE[0]}")/tmux-dev" "$BRANCH" "$(basename -s .conf "$f")"
+
+done

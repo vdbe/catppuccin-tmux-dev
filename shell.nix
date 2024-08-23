@@ -18,6 +18,7 @@ pkgs.mkShellNoCC {
       zsh
       yaml-language-server
       hyperfine
+      gitmux
     ])
     ++ [ bash3 ];
 }
